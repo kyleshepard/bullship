@@ -1,3 +1,9 @@
+.controlPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .gameWindow {
     position: relative;
     background-color: aqua;

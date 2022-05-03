@@ -1,10 +1,11 @@
 
 var gameWindow = document.getElementById("gameWindow");
 var board;
+var currentGameMode;
 
-newGame(8, "standard");
+newGame(8, "classic");
 
-function newGame(size, gameType){
+function newGame(size, gameMode){
     // clear board
     // reset gamewindow
     gameWindow.innerHTML = "";
@@ -35,6 +36,8 @@ function newGame(size, gameType){
                 //initialize tile and place on game board
                 tile.id = "tile-" + ((rowVal * size) + colVal);
                 tile.className = "tile";
+                tile.setAttribute("yPos", rowVal);
+                tile.setAttribute("xPos", colVal);
                 tile.style.top = Math.round(dY) + "px";
                 tile.style.left = Math.round(dX) + "px";
                 tile.style.width = Math.round(tileSize) + "px";
@@ -42,7 +45,26 @@ function newGame(size, gameType){
         }
     }
 
-    if (gameType != "bullship"){
+    if (gameMode != "bullship"){
         // TO DO: place ships
     }
+
+    currentGameMode = gameMode;
 }
+
+gameWindow.addEventListener("click", function(e){
+    //make sure it is a tile and not the game board itself
+    if(e.target !== e.currentTarget){
+        // alert("test!")
+        var xPos = e.target.getAttribute("xPos");
+        var yPos = e.target.getAttribute("yPos");
+
+        if(currentGameMode == "bullship"){
+
+        } else {
+            e.target.style.background = "red";
+        }
+
+        // alert(xPos + ", " + yPos);
+    }
+});

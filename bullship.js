@@ -1,5 +1,6 @@
 
 var gameWindow = document.getElementById("gameWindow");
+var reset = document.getElementById("reset");
 var board;
 var currentGameMode;
 
@@ -47,10 +48,15 @@ function newGame(size, gameMode){
 
     if (gameMode != "bullship"){
         // TODO: place ships
+
     }
 
     currentGameMode = gameMode;
 }
+
+reset.addEventListener("click", function(){
+    newGame(8, "classic")
+})
 
 gameWindow.addEventListener("click", function(e){
     //make sure it is a tile and not the game board itself

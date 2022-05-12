@@ -1,7 +1,33 @@
-.controlPanel {
+body {
+    background-color: rgb(43, 69, 87);
+}
+
+button {
+    padding: 5px;
+    border-radius: 5px;
+    border-color: darkcyan;
+    background-color: cyan;
+    margin: 5px
+}
+
+.controlPanel, footer {
+    /* position: fixed; */
+    /* width: 100%; */
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: darkcyan;
+    padding: 5px;
+}
+
+.controlPanel {
+    margin-bottom: 10px;
+    top: 0;
+}
+
+footer {
+    margin-top: 10px;
+    bottom: 0;
 }
 
 .gameWindow {

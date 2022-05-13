@@ -78,6 +78,9 @@ function newGame(size, gameMode){
             [1, 1, 1, 1, 1, 2, 1, 1],
             [1, 1, 1, 1, 1, 2, 1, 1]
         ];
+    } else {
+        // create an n*n 2d array of undetermined tiles (value 0)
+        board = Array.from(Array(size), () => Array(size).fill(0));
     }
 
     currentGameMode = gameMode ?? "classic";

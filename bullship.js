@@ -100,34 +100,39 @@ reset.addEventListener("click", function(){
 gameWindow.addEventListener("click", function(e){
 
     //make sure it is a tile and not the game board itself
-    if(e.target !== e.currentTarget){
-        
-        // get x and y positions from custom html attributes
-        var xPos = e.target.getAttribute("xPos");
-        var yPos = e.target.getAttribute("yPos");
+    if(e.target === e.currentTarget) return;
 
-        // get tile type (i.e. undetermined, water, ship, miss, or hit)
-        // if undetermined (only possible in bullship mode), try to find a configuration that results in a miss
-        var tileType = board[yPos][xPos];
-        var tileType = (tileType == 0) ? determineTileType(xPos, yPos) : tileType;
+    if(shotsRemaining < 1){
+        if(hitsRemaining > 0) alert("You lose! :(");
 
-        switch (tileType){
-            case 1: // you hit water! make tile white and mark as a miss
-                e.target.style.background = "white";
-                board[yPos][xPos] = 3;
-                break;
-            case 2: // you hit a ship! make tile red, mark as a hit, and decrease hits remaining
-                e.target.style.background = "red";
-                board[yPos][xPos] = 4;
-                hitsRemaining--;
-                break;
-            default: // you shot a tile that you have already shot! just act like it didnt happen
-                return;
-        }
-
-        shotsRemaining--;
-        console.log(`${shotsRemaining} shots remaining, ${hitsRemaining} hits needed to win`)
-
-        if(hitsRemaining == 0) alert("You win!")
+        return;
     }
+
+    // get x and y positions from custom html attributes
+    var xPos = e.target.getAttribute("xPos");
+    var yPos = e.target.getAttribute("yPos");
+
+    // get tile type (i.e. undetermined, water, ship, miss, or hit)
+    // if undetermined (only possible in bullship mode), try to find a configuration that results in a miss
+    var tileType = board[yPos][xPos];
+    var tileType = (tileType == 0) ? determineTileType(xPos, yPos) : tileType;
+
+    switch (tileType){
+        case 1: // you hit water! make tile white and mark as a miss
+            e.target.style.background = "white";
+            board[yPos][xPos] = 3;
+            break;
+        case 2: // you hit a ship! make tile red, mark as a hit, and decrease hits remaining
+            e.target.style.background = "red";
+            board[yPos][xPos] = 4;
+            hitsRemaining--;
+            break;
+        default: // you shot a tile that you have already shot! just act like it didnt happen
+            return;
+    }
+
+    shotsRemaining--;
+    console.log(`${shotsRemaining} shots remaining, ${hitsRemaining} hits needed to win`);
+
+    if(hitsRemaining == 0) alert("You win!");
 });

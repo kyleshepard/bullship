@@ -83,12 +83,13 @@ function newGame(size, gameMode){
         board = Array.from(Array(size), () => Array(size).fill(0));
     }
 
-    currentGameMode = gameMode ?? "classic";
+    currentGameMode = gameMode ?? 0;
 }
 
-//
+// should only be possible in bullship mode
 function determineTileType(xPos, yPos){
     alert(`determining tile type for tile (${xPos},${yPos})`);
+
     return 1;
 }
 
@@ -134,5 +135,5 @@ gameWindow.addEventListener("click", function(e){
     shotsRemaining--;
     console.log(`${shotsRemaining} shots remaining, ${hitsRemaining} hits needed to win`);
 
-    if(hitsRemaining == 0) alert("You win!");
+    if(hitsRemaining == 0) alert("You win! :)");
 });

@@ -1,13 +1,15 @@
-class Bullship {
+//intitalize interactable elements
+let gameWindow = document.getElementById("gameWindow");
+let reset = document.getElementById("reset");
+
+const gameInstance = {
+
   /**
-   * 
    * @param {element} gameWindow - div element id where the game is drawn, default value = "gameWindow"
    * @param {int} size - (8 <= n <= 24) sets the n*n the board size
    * @param {int} gameMode (0 <= n <= 1) 0 = classic, 1 = bullship
    */
-  constructor({gameWindow, size, gameMode}) {
-    //variable for accessing the bullship instance while handling an event
-    let _self = this;
+  newGame: function({size, gameMode}){
 
     //bound size between 8 and 24
     size = Math.min(Math.max(8, size), 24);
@@ -15,16 +17,8 @@ class Bullship {
     //default to classic if gamemode is invalid
     this.gameMode = gameMode < 0 || gameMode > 1 ? 0 : gameMode;
 
-    // reset/initialize gamewindow
-    this.gameWindow = document.getElementById(gameWindow ?? "gameWindow");
-    this.gameWindow.innerHTML = "";
-    this.gameWindow.addEventListener("click", (e)=>{
-        //make sure it is a tile and not the game board itself
-        if(e.target !== e.currentTarget){
-            //use "_self" instead of "this" so we dont grab the event handler object
-            _self.fireAt(e.target);
-        }
-    });
+    // reset gamewindow
+    gameWindow.innerHTML = "";
 
     // reset ships and game progress
     this.board = [];
@@ -47,7 +41,7 @@ class Bullship {
 
         //add tile to DOM
         let tile = document.createElement("div");
-        this.gameWindow.appendChild(tile);
+        gameWindow.appendChild(tile);
 
         //initialize tile and place on game board
         tile.id = "tile-" + (rowVal * size + colVal);
@@ -80,9 +74,9 @@ class Bullship {
       // create an n*n 2d array of undetermined tiles (value 0)
       this.board = Array.from(Array(size), () => Array(size).fill(0));
     }
-  }
+  },
 
-  fireAt(tile){
+  fireAt: function(tile){
 
     if(this.shotsRemaining < 1){
         if(this.hitsRemaining > 0) alert("You lose! :(");
@@ -117,14 +111,14 @@ class Bullship {
     console.log(`${this.shotsRemaining} shots remaining, ${this.hitsRemaining} hits needed to win`);
 
     if(this.hitsRemaining == 0) alert("You win! :)");
-  }
+  },
 
-  determineHit(hitShips, unhitShips, availabilityMap, fireX, fireY){
+  determineHit: function(hitShips, unhitShips, availabilityMap, fireX, fireY){
     //
-  }
+  },
 
   // should only be possible in bullship mode
-  determineTileType(xPos, yPos){
+  determineTileType: function(xPos, yPos){
     alert(`determining tile type for tile (${xPos},${yPos})`);
     
     isHit = determineHit(hitShips, unhitShips, availabilityMap, xPos, yPos);
@@ -135,16 +129,21 @@ class Bullship {
 
     return (isHit) ? 2 : 1;
   }
-}
+};
 
 //start new game on classic mode 8*8
 let gameSettings = {size: 8, gameMode: 0};
-let gameInstance = new Bullship(gameSettings);
-
-//html objects outside of the gameWindow
-let reset = document.getElementById("reset");
+gameInstance.newGame(gameSettings);
 
 // TODO: fix reset function
 reset.addEventListener("click", function(){
-    gameInstance = new Bullship(gameSettings)
+    gameInstance.newGame(gameSettings);
 })
+
+gameWindow.addEventListener("click", (e)=>{
+    //make sure it is a tile and not the game board itself
+    if(e.target !== e.currentTarget){
+        //use "_self" instead of "this" so we dont grab the event handler object
+        gameInstance.fireAt(e.target);
+    }
+});

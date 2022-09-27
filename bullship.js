@@ -79,8 +79,7 @@ const gameInstance = {
   fireAt: function(tile){
 
     if(this.shotsRemaining < 1){
-        if(this.hitsRemaining > 0) alert("You lose! :(");
-
+        console.log("No shots remaining")
         return;
     }
 
@@ -111,6 +110,7 @@ const gameInstance = {
     console.log(`${this.shotsRemaining} shots remaining, ${this.hitsRemaining} hits needed to win`);
 
     if(this.hitsRemaining == 0) alert("You win! :)");
+    else if (this.hitsRemaining > 0 && this.shotsRemaining < 1) alert(("You lose! :("))
   },
 
   determineHit: function(hitShips, unhitShips, availabilityMap, fireX, fireY){

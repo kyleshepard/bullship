@@ -44,7 +44,7 @@ const direction = {
 function Ship(length) {
     this.length = length;
     this.from = null;
-    this.direction;
+    this.direction = null;
     this.anchorPoints = [];
 
     /**

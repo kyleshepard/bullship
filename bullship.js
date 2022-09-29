@@ -95,7 +95,7 @@ function determineTileType(xPos, yPos){
 
 reset.addEventListener("click", function(){
     newGame(8, 0)
-})
+});
 
 // on tile click
 gameWindow.addEventListener("click", function(e){

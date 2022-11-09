@@ -211,12 +211,16 @@ const fillContainer = (container, ships) => {
   
 }
 
+/**
+ * A region where ships can be placed.
+ * @param {number} size the number of spaces the container occupies on the board.
+ */
 function Container(size) {
   this.size = size;
   this.ships = [];
 
   /**
-   * Fills the container with as many of the provided ships as will fit in the order they are provided.
+   * Fills the container with ships until it is full. Ships will be added in the order they are provided.
    * @param {Array.<Ship>} ships the ships to fill the container with.
    */
   this.fill = (ships) => {

@@ -149,68 +149,6 @@ const gameInstance = {
   }
 };
 
-const placeShipsOnBoard = (board, ships) => {
-  return board;
-}
-
-const placeShipOnBoard = (board, ship) => {
-  // TODO: calculate score of ship location to determine whether to place it here or not.
-  // Score could be based on how tight the ship fits into the location. A tighter fit is better since it wastes less space for other ships. Tightness would need to depend on how many shots have been fired, otherwise the score will suck at first.
-
-  if (ship.anchorPoints) {
-
-  } else {
-
-  }
-
-  return board;
-}
-
-/**
- * Finds a location to place the ship.
- * @param {array} board the game board.
- * @param {Ship} ship the ship to place.
- * @returns the score the ship placement receives.
- */
-const placeShip = (board, ship)  => {
-  let score = 0;
-
-  let x = y = 0;
-
-  while (y < board.length - ship.length) {
-    while (x < board[x].length - ship.length) {
-      if (!board[x][y].hit) {
-        let hit = false;
-    
-        for (let i = x + ship.length; x < i && !hit; i--) {
-          hit = board[i][y].hit;
-        }
-    
-        if (!hit) {
-          // TODO: place ship.
-          ship.place(board[x][y], direction.X);
-    
-          // TODO: calculate score.
-        } else {
-          // Continue searching from the next spot without a hit.
-          x = i;
-        }
-      }
-
-      x++;
-    }
-
-    x = 0;
-    y++;
-  }
-
-  return score;
-}
-
-const fillContainer = (container, ships) => {
-  
-}
-
 /**
  * A region where ships can be placed.
  * @param {number} size the number of spaces the container occupies on the board.

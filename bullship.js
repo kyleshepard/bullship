@@ -149,6 +149,117 @@ const gameInstance = {
   }
 };
 
+const placeShipsOnBoard = (board, ships) => {
+  return board;
+}
+
+const placeShipOnBoard = (board, ship) => {
+  // TODO: calculate score of ship location to determine whether to place it here or not.
+  // Score could be based on how tight the ship fits into the location. A tighter fit is better since it wastes less space for other ships. Tightness would need to depend on how many shots have been fired, otherwise the score will suck at first.
+
+  if (ship.anchorPoints) {
+
+  } else {
+
+  }
+
+  return board;
+}
+
+/**
+ * Finds a location to place the ship.
+ * @param {array} board the game board.
+ * @param {Ship} ship the ship to place.
+ * @returns the score the ship placement receives.
+ */
+const placeShip = (board, ship)  => {
+  let score = 0;
+
+  let x = y = 0;
+
+  while (y < board.length - ship.length) {
+    while (x < board[x].length - ship.length) {
+      if (!board[x][y].hit) {
+        let hit = false;
+    
+        for (let i = x + ship.length; x < i && !hit; i--) {
+          hit = board[i][y].hit;
+        }
+    
+        if (!hit) {
+          // TODO: place ship.
+          ship.place(board[x][y], direction.X);
+    
+          // TODO: calculate score.
+        } else {
+          // Continue searching from the next spot without a hit.
+          x = i;
+        }
+      }
+
+      x++;
+    }
+
+    x = 0;
+    y++;
+  }
+
+  return score;
+}
+
+const fillContainer = (container, ships) => {
+  
+}
+
+function Container(size) {
+  this.size = size;
+  this.ships = [];
+
+  /**
+   * Fills the container with as many of the provided ships as will fit in the order they are provided.
+   * @param {Array.<Ship>} ships the ships to fill the container with.
+   */
+  this.fill = (ships) => {
+    ships.forEach((ship, index) => {
+      if (this.addShip(ship) && this.remainingSpace() > 0) {
+        this.fill(ships.slice(index + 1));
+      }
+    });
+  }
+
+  /**
+   * Adds the specified ship to the container if it's possible to do so.
+   * @param {Ship} ship the ship to add to the container.
+   * @returns whether the ship was added or not.
+   */
+  this.addShip = (ship) => {
+    if (this.canAddShip(ship.length)) {
+      this.ships.push(ship);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Determines whether a ship will fit in the container or not.
+   * @param {number} length the length of the ship to add to the container.
+   * @returns whether the ship can be added to the container or not.
+   */
+  this.canAddShip = (length) => {
+    return length <= this.remainingSpace();
+  }
+
+  /**
+   * Determines the amount of space remaining in the container.
+   * @returns amount of space remaining in the container.
+   */
+  this.remainingSpace = () => {
+    return this.size - this.ships.length;
+  }
+}
+
 //start new game on classic mode 8*8
 const gameSettings = {size: 8, gameMode: 1};
 gameInstance.newGame(gameSettings);

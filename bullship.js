@@ -154,8 +154,8 @@ const gameInstance = {
       //mark tile as unavailable
       this.board[currentTile.x][currentTile.y].type = type
 
-      //update vertical and horizontal availability maps
-
+      //update availability map perpendicular to the ship orientation
+      perpendicularSlot = 
 
     }
 

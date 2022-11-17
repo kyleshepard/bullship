@@ -140,11 +140,30 @@ const gameInstance = {
     return (isHit) ? 2 : 1;
   },
 
-  updateMap: function(){
+  //mark a range of the board as currently occupied
+  placeOnMap: function(x, y, length, orientation, type){
+    //check if possible before doing it
 
+    //mark tiles as unavailable on board and update availability maps
+    for(let i = 0; i < length; i++){
+      let currentTile = {
+        x: x + (orientation == Orientation.horizontal ? i : 0),
+        y: y + (orientation == Orientation.vertical ? i : 0)
+      }
+
+      //mark tile as unavailable
+      this.board[currentTile.x][currentTile.y].type = type
+
+      //update vertical and horizontal availability maps
+
+
+    }
+
+    //update mapDeltas with changes
   },
 
-  undoUpdate: function(){
+  //undoes the last placeOnMap action, making a range of the board available again
+  undoPlace: function(){
 
   }
 };
@@ -176,7 +195,7 @@ gameWindow.addEventListener("click", (e)=>{
     this.type = type; // whether this tile is a hit, miss, ship, water, or undefined. maybe make an enum?
     this.slot = { // where empty slots containing this tile exist in the availibility map, if anywhere
       vertical: [],
-      horizontal: [2, 0]
+      horizontal: []
     }
     /**
      * Places a ship at this position if it's allowed.
@@ -190,12 +209,10 @@ gameWindow.addEventListener("click", (e)=>{
     }
 }
 
-/** Axis on the board. */
-const direction = {
-    /** X-axis. */
-    X: true,
-    /** Y-axis. */
-    Y: false
+/** vertical = aligned with y axis, horizontal = aligned with x axis */
+const Orientation = {
+    vertical: 0,
+    horizontal: 1
 }
 
 /**

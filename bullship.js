@@ -140,23 +140,34 @@ const gameInstance = {
     return (isHit) ? 2 : 1;
   },
 
-  //mark a range of the board as currently occupied
-  placeOnMap: function(x, y, length, orientation, type){
+  //mark a range of the board as currently occupied, updates both horizontal and vertical availability maps
+  placeOnMap: function(slot, length, offset, orientation, type){
+
+    //turn one slot into 0-2 other slots by splitting it
+    function occupySlot(slot, coordinate, length, offset, orientation){
+      
+    }
+
+    //set coordinate as start of range (left- or top-most coordinate)
+    coordinate = slot
+    coordinate[orientation] += offset;
+    
+    occupyRange(slot, coordinate, length, offset, orientation)
+
+    let perpOrientation = Orientation.perpendicular(orientation)
     //check if possible before doing it
 
     //mark tiles as unavailable on board and update availability maps
     for(let i = 0; i < length; i++){
-      let currentTile = {
-        x: x + (orientation == Orientation.horizontal ? i : 0),
-        y: y + (orientation == Orientation.vertical ? i : 0)
-      }
+      
+      coordinate[orientation]++;
 
-      //mark tile as unavailable
-      this.board[currentTile.x][currentTile.y].type = type
+      //mark each tile as unavailable
+      this.board[coordinate[0]][coordinate[1]].type = type
 
       //update availability map perpendicular to the ship orientation
-      perpendicularSlot = 
-
+      perpendicularSlot = this.board[x][y].slot[perpOrientation]
+      occupyRange(slot, coordinate, length, offset, perpOrientation)
     }
 
     //update mapDeltas with changes
@@ -211,8 +222,20 @@ gameWindow.addEventListener("click", (e)=>{
 
 /** vertical = aligned with y axis, horizontal = aligned with x axis */
 const Orientation = {
-    vertical: 0,
-    horizontal: 1
+    vertical: 1,
+    horizontal: 0,
+
+    perpendicular: (orientation) => {
+      if(orientation == Orientation.vertical){
+        return Orientation.horizontal
+      }
+      else if (orientation == Orientation.horizontal){
+        return Orientation.vertical
+      }
+      else{
+        return null
+      }
+    }
 }
 
 /**
